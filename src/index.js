@@ -1,7 +1,7 @@
 import { GraphQLServer } from 'graphql-yoga';
 
 //Mock users
-const users = [
+let users = [
     {
         id: '1',
         name: 'Johnny',
@@ -20,7 +20,7 @@ const users = [
 ];
 
 //Mock posts
-const posts = [
+let posts = [
     {
         id: '1',
         title: 'Johnny',
@@ -45,7 +45,7 @@ const posts = [
 ];
 
 //Mock comments 
-const comments = [
+let comments = [
     {
         id: '1',
         text: "whatsss",
