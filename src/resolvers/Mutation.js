@@ -132,7 +132,7 @@ const Mutation = {
         return post;
 
     },
-    createComment (parent, args, {db}, info) {
+    createComment (parent, args, {db, pubsub}, info) {
         const userExists = db.users.some((user) => user.id === args.data.author);
         const postExists = db.posts.some((post) => post.id === args.data.post);
         const currentPost = db.posts.find((post) => post.id === args.data.post);
@@ -151,6 +151,12 @@ const Mutation = {
         };
 
         db.comments.push(comment);
+
+        //publish the comment as soon as it is created, so that the listeners subscribed 
+        //to 'comment postId' subscription are notified
+        pubsub.publish(`comment ${args.data.post}`, {
+            comment
+        })
 
         return comment;
     },

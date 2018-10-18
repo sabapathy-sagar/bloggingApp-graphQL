@@ -7,15 +7,31 @@ const Subscription = {
                 count++
                 //publish method takes two arguments
                 //name of the channel - count
-                //data to publish
+                //data to publish - count data
                 pubsub.publish('count', {
                     count
                 })
 
             }, 1000)
 
-            //set up the channel, with a name called 'count'
+            //set up the channel, with a channel name called 'count'
             return pubsub.asyncIterator('count');
+        }
+    },
+    comment: {
+        subscribe (parent, args, ctx, info) {
+            const {postId} = args;
+            const {db, pubsub} = ctx;
+
+            //check if post exists and is published
+            const post = db.posts.find((post) => (post.id === postId) && post.published );
+
+            if(!post){
+                throw new Error('post does not exist!');
+            }
+
+            //set up the channel, with a channel name called 'comment postId'
+            return pubsub.asyncIterator(`comment ${postId}`);
         }
     }
 
