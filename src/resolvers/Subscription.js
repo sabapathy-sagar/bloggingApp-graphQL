@@ -33,6 +33,15 @@ const Subscription = {
             //set up the channel, with a channel name called 'comment postId'
             return pubsub.asyncIterator(`comment ${postId}`);
         }
+    },
+    post: {
+        subscribe (parent, args, ctx, info) {
+            const {db, pubsub} = ctx;
+
+            //set up channel, with channel name 'post'
+            return pubsub.asyncIterator('post');
+
+        }
     }
 
 };
